@@ -11,6 +11,9 @@
     <RootNamespace>ReactAbpProject</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="Abp.RedisCache" Version="4.1.0" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\ReactAbpProject.Core\ReactAbpProject.Core.csproj" />
   </ItemGroup>
 </Project>

@@ -23,8 +23,9 @@ namespace ReactAbpProject.Web.Host.Controllers
         }
 
         /// <summary>
+        /// 这是一个演示代码，演示向默认租户管理员和主机管理员发送通知
         /// This is a demo code to demonstrate sending notification to default tenant admin and host admin uers.
-        /// Don't use this code in production !!!
+        /// 不要在生产中使用此代码 !!!
         /// </summary>
         /// <param name="message"></param>
         /// <returns></returns>
@@ -32,12 +33,12 @@ namespace ReactAbpProject.Web.Host.Controllers
         {
             if (message.IsNullOrEmpty())
             {
-                message = "This is a test notification, created at " + Clock.Now;
+                message = "这是一个测速通知, 创建时间 " + Clock.Now;
             }
-
+            //根据租户Id和用户Id得到标识用户
             var defaultTenantAdmin = new UserIdentifier(1, 2);
             var hostAdmin = new UserIdentifier(null, 1);
-
+            //发布异步消息
             await _notificationPublisher.PublishAsync(
                 "App.SimpleMessage",
                 new MessageNotificationData(message),

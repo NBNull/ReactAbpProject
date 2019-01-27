@@ -9,7 +9,7 @@ using ReactAbpProject.EntityFrameworkCore;
 namespace ReactAbpProject.Migrations
 {
     [DbContext(typeof(ReactAbpProjectDbContext))]
-    [Migration("20190125101054_Initial_Migration")]
+    [Migration("20190125132610_Initial_Migration")]
     partial class Initial_Migration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

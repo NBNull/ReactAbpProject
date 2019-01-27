@@ -42,13 +42,13 @@ namespace ReactAbpProject.Web.Host.Startup
 
             services.AddSignalR();
 
-            // Configure CORS for angular2 UI
+            // 配置跨域
             services.AddCors(
                 options => options.AddPolicy(
                     _defaultCorsPolicyName,
                     builder => builder
                         .WithOrigins(
-                            // App:CorsOrigins in appsettings.json can contain more than one address separated by comma.
+                            //App:CorsOrigins:在appsettings.json可以包含由逗号分隔的多个地址。 App:CorsOrigins in appsettings.json can contain more than one address separated by comma.
                             _appConfiguration["App:CorsOrigins"]
                                 .Split(",", StringSplitOptions.RemoveEmptyEntries)
                                 .Select(o => o.RemovePostFix("/"))
@@ -60,25 +60,25 @@ namespace ReactAbpProject.Web.Host.Startup
                 )
             );
 
-            // Swagger - Enable this line and the related lines in Configure method to enable swagger UI
+            // Swagger - 在Configure方法中启用这一行以及相关的行以启用swagger UI Enable this line and the related lines in Configure method to enable swagger UI
             services.AddSwaggerGen(options =>
             {
                 options.SwaggerDoc("v1", new Info { Title = "ReactAbpProject API", Version = "v1" });
                 options.DocInclusionPredicate((docName, description) => true);
 
-                // Define the BearerAuth scheme that's in use
+                //定义正在使用的BearerAuth方案
                 options.AddSecurityDefinition("bearerAuth", new ApiKeyScheme()
                 {
-                    Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
+                    Description = "使用授权头方案的JWT授权头.heads \"Authorization: Bearer {token}\"",
                     Name = "Authorization",
                     In = "header",
                     Type = "apiKey"
                 });
             });
 
-            // Configure Abp and Dependency Injection
+            //配置Abp和依赖注入 Configure Abp and Dependency Injection
             return services.AddAbp<ReactAbpProjectWebHostModule>(
-                // Configure Log4Net logging
+                //配置Log4Net日志 Configure Log4Net logging
                 options => options.IocManager.IocContainer.AddFacility<LoggingFacility>(
                     f => f.UseAbpLog4Net().WithConfig("log4net.config")
                 )
@@ -89,7 +89,7 @@ namespace ReactAbpProject.Web.Host.Startup
         {
             app.UseAbp(options => { options.UseAbpRequestLocalization = false; }); // Initializes ABP framework.
 
-            app.UseCors(_defaultCorsPolicyName); // Enable CORS!
+            app.UseCors(_defaultCorsPolicyName); // 开启跨域 Enable CORS!
 
             app.UseStaticFiles();
 
@@ -114,12 +114,19 @@ namespace ReactAbpProject.Web.Host.Startup
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
 
-            // Enable middleware to serve generated Swagger as a JSON endpoint
+            //使中间件能够作为JSON端点提供生成的Swagger Enable middleware to serve generated Swagger as a JSON endpoint
             app.UseSwagger();
-            // Enable middleware to serve swagger-ui assets (HTML, JS, CSS etc.)
+            //使用swagger-ui中间件服务 Enable middleware to serve swagger-ui assets (HTML, JS, CSS etc.)
             app.UseSwaggerUI(options =>
             {
                 options.SwaggerEndpoint(_appConfiguration["App:ServerRootAddress"].EnsureEndsWith('/') + "swagger/v1/swagger.json", "ReactAbpProject API V1");
+                options.IndexStream = () => Assembly.GetExecutingAssembly()
+                    .GetManifestResourceStream("ReactAbpProject.Web.Host.wwwroot.swagger.ui.index.html");
+            }); // URL: /swagger
+            //使用swagger-ui中间件服务 Enable middleware to serve swagger-ui assets (HTML, JS, CSS etc.)
+            app.UseSwaggerUI(options =>
+            {
+                options.SwaggerEndpoint(_appConfiguration["App:ServerRootAddress"].EnsureEndsWith('/') + "swagger/v1/swagger.json", "ReactAbpProject API V2");
                 options.IndexStream = () => Assembly.GetExecutingAssembly()
                     .GetManifestResourceStream("ReactAbpProject.Web.Host.wwwroot.swagger.ui.index.html");
             }); // URL: /swagger
