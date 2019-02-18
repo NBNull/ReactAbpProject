@@ -19,7 +19,7 @@ namespace ReactAbpProject
         /// </summary>
         public override void PreInitialize()
         {
-            Configuration.MultiTenancy.IsEnabled = false;//关闭多租户
+            //Configuration.MultiTenancy.IsEnabled = false;//关闭多租户
             Configuration.Caching.UseRedis(option=> {
                 //option.ConnectionString = "redisPa$$w0rd@180.168.83.90:7944";
                 option.ConnectionString = "localhost";

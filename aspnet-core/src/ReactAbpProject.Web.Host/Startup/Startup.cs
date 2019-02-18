@@ -95,7 +95,9 @@ namespace ReactAbpProject.Web.Host.Startup
 
             app.UseAuthentication();
 
-            app.UseAbpRequestLocalization();
+            app.UseAbpRequestLocalization((option)=> {
+                option.SetDefaultCulture("zh-CN");
+            });
 
 
             app.UseSignalR(routes =>
